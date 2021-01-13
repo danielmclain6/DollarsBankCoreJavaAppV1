@@ -6,9 +6,10 @@ import java.util.Scanner;
 import com.dollarsbank.controller.Controller;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
+import com.dollarsbank.utility.Colors;
 import com.dollarsbank.utility.ConsolePrinterUtility;
 
-public class DollarsBankApplication {
+public class DollarsBankApplication implements Colors{
 
 	public static void main(String[] args) {
 		ArrayList<Customer> customerList = new ArrayList<>();
@@ -18,12 +19,12 @@ public class DollarsBankApplication {
 		boolean isLoggedIn = false;
 		int loggedInId;
 		Account testAccount = new Account("Checking", 5000);
+		Account testAccount2 = new Account("Savings", 10000);
 		Customer testCus = new Customer("Daniel", "address", "Phone", "password", testAccount);
+		testCus.addAccount(testAccount2);
 		customerList.add(testCus);
 
-		for (Customer c : customerList) {
-			System.out.println(c + "hello");
-		}
+		
 		Customer loggedInUser = null;
 
 		while (!isLoggedIn) {
@@ -67,10 +68,14 @@ public class DollarsBankApplication {
 					controller.withdraw(input, loggedInUser);
 					break;
 				case 4:
-//					controller.transfer(input, loggedInUser);
+					controller.transfer(input, loggedInUser);
 					break;
 				case 5:
 					cpu.viewTransactionHistory(input, loggedInUser);
+					break;
+				case 6:
+					cpu.printCustomer(loggedInUser);
+					break;
 				}
 			}
 		}

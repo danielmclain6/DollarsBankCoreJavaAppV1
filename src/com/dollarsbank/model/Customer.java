@@ -3,7 +3,9 @@ package com.dollarsbank.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Customer {
+import com.dollarsbank.utility.Colors;
+
+public class Customer implements Colors{
 	private String name;
 	private String address;
 	private static int customers = 1;
@@ -73,11 +75,14 @@ public class Customer {
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
+	
+	public void addAccount(Account a) {
+		this.accountList.put(a.getAccountNumber(), a);
+	}
 
 	@Override
 	public String toString() {
-		return "Customer [name=" + name + ", address=" + address + ", phone=" + phone + ", password=" + password
-				+ ", accountList=" + accountList + ", customerId=" + customerId + "]";
+		return Colors.ANSI_CYAN + name + "\n" + "ID: " + customerId + "\n" +  "Address: " + address + "\n" + "Phone: " + phone + "\n" + ANSI_RESET;
 	}
 
 	

@@ -62,12 +62,12 @@ public class Account {
 		recordWithdrawal(amount);
 	}
 	public void recordDeposit(double amount) {
-		String transaction = "Deposited " + amount + " into Account Number " + this.accountNumber;
+		String transaction = "Deposited $" + amount;
 		setTransactionHistory(transaction);
 	}
 	
 	public void recordWithdrawal(double amount) {
-		String transaction = "Withdrew " + amount + " from Account Number " + this.accountNumber;
+		String transaction = "Withdrew $" + amount;
 		setTransactionHistory(transaction);
 	}
 	@Override

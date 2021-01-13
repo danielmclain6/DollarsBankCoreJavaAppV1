@@ -8,9 +8,11 @@ import java.util.regex.Pattern;
 
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
+import com.dollarsbank.utility.Colors;
 import com.dollarsbank.utility.ConsolePrinterUtility;
 
-public class Controller {
+public class Controller implements Colors {
+	
 	
 	ConsolePrinterUtility cpu = new ConsolePrinterUtility();
 	
@@ -54,7 +56,7 @@ public class Controller {
 					return c;
 					
 				} else {
-					System.out.println("Incorrect user or password");					
+					System.out.println(Colors.ANSI_RED + "Incorrect user or password" + Colors.ANSI_RESET);					
 				}
 			}
 		}
@@ -71,7 +73,7 @@ public class Controller {
 		String specialCharRegex = "[!|@|#|$|%|^|&|*|(|)|-|+]";
 		
 		if(pw.length() < 6) {
-			System.out.println("Passwords must be at least 6 characters long");
+			System.out.println(Colors.ANSI_RED + "Passwords must be at least 6 characters long" + Colors.ANSI_RESET);
 			return false;
 		}
 		//Check for lowercase letter
@@ -79,7 +81,7 @@ public class Controller {
 		Matcher password = pattern.matcher(pw);
 		boolean hasLowercase = password.find();
 		if( !hasLowercase) {
-			System.out.println("Password must contain at least 1 lowercase letter");
+			System.out.println(Colors.ANSI_RED +"Password must contain at least 1 lowercase letter" + Colors.ANSI_RESET);
 		}
 		
 		//Check for uppercase Letter
@@ -87,7 +89,7 @@ public class Controller {
 		password = pattern.matcher(pw);
 		boolean hasUpperCase = password.find();
 		if(!hasUpperCase) {
-			System.out.println("Password must contain at leat 1 uppercase letter");
+			System.out.println(Colors.ANSI_RED + "Password must contain at leat 1 uppercase letter" + Colors.ANSI_RESET);
 		}
 		
 		//Check for digit
@@ -96,7 +98,7 @@ public class Controller {
 		password = pattern.matcher(pw);
 		boolean hasDigit = password.find();
 		if(!hasDigit) {
-			System.out.println("Password must contain at least 1 digit");
+			System.out.println(Colors.ANSI_RED + "Password must contain at least 1 digit" + Colors.ANSI_RESET);
 		}
 		
 		//check for special char
@@ -104,7 +106,7 @@ public class Controller {
 		password = pattern.matcher(pw);
 		boolean hasSpecial = password.find();
 		if(!hasSpecial) {
-			System.out.println("Password must contain at least 1 special character");
+			System.out.println(Colors.ANSI_RED + "Password must contain at least 1 special character" + Colors.ANSI_RESET);
 		}
 		if(hasLowercase && hasUpperCase && hasDigit && hasSpecial) {
 			return true;
@@ -158,6 +160,39 @@ public class Controller {
 				c.getAccountList().get(id).withdraw(withdrawal);
 				
 		}
+		
+			public void transfer(Scanner in, Customer c) {
+				cpu.printAccounts(c);
+				System.out.println("Which account ID are you transferring money FROM? ");
+				int idFrom = in.nextInt();
+				while(!c.getAccountList().containsKey(idFrom)) {
+					System.out.println("Invalid account ID, please type a valid account ID");
+					idFrom = in.nextInt();
+				}
+				cpu.printAccounts(c);
+				System.out.println("Which account ID are you transferring money TO?");
+				int idTo = in.nextInt();
+				while(!c.getAccountList().containsKey(idTo)) {
+					System.out.println("Invalid account Id, please type a valid account ID");
+					idTo = in.nextInt();
+				}
+				System.out.println("How much do you want to transfer to account number " + idTo);
+				double transferAmount = in.nextDouble();
+				while(transferAmount > c.getAccountList().get(idFrom).getBalance()) {
+					System.out.println("Account does not contain enough money, please change the amount you wish to transfer");
+					transferAmount = in.nextDouble();
+				}
+				System.out.println("You have successfully transferred $"
+						+ transferAmount + " from account number " + idFrom
+						+ " to account " + idTo);
+				c.getAccountList().get(idFrom).withdraw(transferAmount);
+				c.getAccountList().get(idTo).makeDeposit(transferAmount);
+			}
+			
+	public void printCustomer(Customer c) {
+		System.out.println(c);
+	}
+			
 			
 		
 	

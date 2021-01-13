@@ -6,18 +6,18 @@ import java.util.Set;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
 
-public class ConsolePrinterUtility {
+public class ConsolePrinterUtility implements Colors{
 
 	
 	public void initialMenu() {
-		System.out.println("+--------------------------+");
+		System.out.println(Colors.ANSI_BLUE + "+--------------------------+");
 		System.out.println("|         Welcome          |");
 		System.out.println("+--------------------------+");
 		System.out.println();
 		System.out.println("Please make a selection");
 		System.out.println("1. New Customer");
 		System.out.println("2. Login");
-		System.out.println("3. Exit");
+		System.out.println("3. Exit" + Colors.ANSI_RESET);
 	}
 	
 	public void loggedInMenu(Customer c) {
@@ -53,5 +53,9 @@ public class ConsolePrinterUtility {
 			System.out.println(s);
 		}
 		
+	}
+	
+	public void printCustomer(Customer c) {
+		System.out.println(c);
 	}
 }
