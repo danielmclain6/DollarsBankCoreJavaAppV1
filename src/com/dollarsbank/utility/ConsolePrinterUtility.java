@@ -12,7 +12,7 @@ public class ConsolePrinterUtility implements Colors{
 	public void initialMenu() {
 		System.out.println(Colors.ANSI_BLUE + "+--------------------------+");
 		System.out.println("|         Welcome          |");
-		System.out.println("+--------------------------+");
+		System.out.println("+--------------------------+" + Colors.ANSI_RESET);
 		System.out.println();
 		System.out.println("Please make a selection");
 		System.out.println("1. New Customer");
@@ -31,6 +31,7 @@ public class ConsolePrinterUtility implements Colors{
 		System.out.println("4. Transfer Money");
 		System.out.println("5. View Transaction History");
 		System.out.println("6. View Customer Account");
+		System.out.println("7. Log out");
 	}
 	
 	public void printAccounts(Customer c) {
@@ -58,4 +59,12 @@ public class ConsolePrinterUtility implements Colors{
 	public void printCustomer(Customer c) {
 		System.out.println(c);
 	}
+	  public static <E> E checkInput(E input, E inputCheck, Scanner in) {
+	        if(input.getClass().equals(inputCheck.getClass())) {
+	            return input;
+	        }
+	        return null;
+	    }
+		
+	
 }

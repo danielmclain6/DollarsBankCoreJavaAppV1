@@ -1,6 +1,7 @@
 package com.dollarsbank.application;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.dollarsbank.controller.Controller;
@@ -9,7 +10,7 @@ import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.Colors;
 import com.dollarsbank.utility.ConsolePrinterUtility;
 
-public class DollarsBankApplication implements Colors{
+public class DollarsBankApplication implements Colors {
 
 	public static void main(String[] args) {
 		ArrayList<Customer> customerList = new ArrayList<>();
@@ -17,20 +18,30 @@ public class DollarsBankApplication implements Colors{
 		ConsolePrinterUtility cpu = new ConsolePrinterUtility();
 		Controller controller = new Controller();
 		boolean isLoggedIn = false;
-		int loggedInId;
 		Account testAccount = new Account("Checking", 5000);
 		Account testAccount2 = new Account("Savings", 10000);
 		Customer testCus = new Customer("Daniel", "address", "Phone", "password", testAccount);
 		testCus.addAccount(testAccount2);
 		customerList.add(testCus);
 
-		
 		Customer loggedInUser = null;
-
+		boolean invalidChoice = true;
+		int menuChoice = 0;
+		
+		while(true) {
 		while (!isLoggedIn) {
 			cpu.initialMenu();
-			int choice = input.nextInt();
-			switch (choice) {
+			while (invalidChoice) {
+				if (input.hasNextInt()) {
+					menuChoice = input.nextInt();
+					invalidChoice = false;
+				} else {
+					System.out.println("Please enter a valid menu option");
+					cpu.initialMenu();
+					input.next();
+				}
+			}
+			switch (menuChoice) {
 			case 1:
 				Customer customer = controller.addNewCustomer(input);
 				customerList.add(customer);
@@ -45,6 +56,10 @@ public class DollarsBankApplication implements Colors{
 			case 3:
 				System.exit(0);
 				;
+			default:
+				System.out.println("Please enter a valid menu option");
+				invalidChoice = true;
+
 			}
 			// Logged in Menu:
 //			1. View your Accounts
@@ -53,9 +68,20 @@ public class DollarsBankApplication implements Colors{
 //			4. Transfer money
 //			5. View Transaction History"
 //			6. View Customer Account
+			
 			while (isLoggedIn) {
 				cpu.loggedInMenu(loggedInUser);
-				int menuChoice = input.nextInt();
+				invalidChoice = true;
+				while (invalidChoice) {
+					if (input.hasNextInt()) {
+						menuChoice = input.nextInt();
+						invalidChoice = false;
+					} else {
+						System.out.println("Please enter a valid menu option");
+						input.next();
+					}
+				}
+
 				switch (menuChoice) {
 				case 1:
 					cpu.printAccounts(loggedInUser);
@@ -76,10 +102,17 @@ public class DollarsBankApplication implements Colors{
 				case 6:
 					cpu.printCustomer(loggedInUser);
 					break;
+				case 7:
+					isLoggedIn = false;
+					invalidChoice = true;
+					break;
+				default:
+					System.out.println("Please enter a valid menu option2");
+					invalidChoice = true;
 				}
 			}
 		}
-
+		input.close();
 	}
-
+	}
 }
