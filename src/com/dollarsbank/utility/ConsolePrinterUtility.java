@@ -17,7 +17,8 @@ public class ConsolePrinterUtility implements Colors{
 		System.out.println("Please make a selection");
 		System.out.println("1. New Customer");
 		System.out.println("2. Login");
-		System.out.println("3. Exit" + Colors.ANSI_RESET);
+		System.out.println("3. Exit");
+		System.out.println("4. Log in to DB" + Colors.ANSI_RESET);
 	}
 	
 	public void loggedInMenu(Customer c) {

@@ -1,11 +1,16 @@
 package com.dollarsbank.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dollarsbank.connection.ConnectionManager;
 import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.Colors;
@@ -15,6 +20,7 @@ public class Controller implements Colors {
 	
 	
 	ConsolePrinterUtility cpu = new ConsolePrinterUtility();
+	Connection conn = ConnectionManager.getConnection();
 	
 	public Customer addNewCustomer(Scanner in) {
 		System.out.println("Please enter your name");
@@ -191,6 +197,37 @@ public class Controller implements Colors {
 			
 	public void printCustomer(Customer c) {
 		System.out.println(c);
+	}
+	
+	
+	public Customer loginDB(Scanner in) {
+		System.out.println("Please enter your user ID");
+		int id = in.nextInt();
+		System.out.println("Please enter your password");
+		in.nextLine();
+		String pw = in.nextLine();
+		try(PreparedStatement ps = conn.prepareStatement("select * from customer where cusID = ? AND password = ?");
+				){
+			//Set id and password in preparedstatement
+			ps.setInt(1, id);
+			ps.setString(2, pw);
+			try(ResultSet rs = ps.executeQuery();) {
+				rs.next();
+				String name = rs.getString("first_name") + " " + rs.getString("last_name");
+				String phone = rs.getString("phone");
+				String address = rs.getString("address");
+				int cusId = rs.getInt("cusID");
+				String password = rs.getString("password");
+				return new Customer(name, phone, address, password, cusId);
+			} 
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		System.out.println("Reached end of logindb");
+		return null;
 	}
 			
 			

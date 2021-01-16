@@ -25,6 +25,14 @@ public class Customer implements Colors{
 		this.customerId = customers;
 		customers++;
 	}
+	
+	public Customer (String name, String address, String phone, String password, int id) {
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.password = password;
+		this.customerId = id;
+	}
 
 	public String getName() {
 		return name;

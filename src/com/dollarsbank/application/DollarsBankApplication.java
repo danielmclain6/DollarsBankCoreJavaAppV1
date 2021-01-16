@@ -9,10 +9,16 @@ import com.dollarsbank.model.Account;
 import com.dollarsbank.model.Customer;
 import com.dollarsbank.utility.Colors;
 import com.dollarsbank.utility.ConsolePrinterUtility;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.dollarsbank.connection.ConnectionManager;
 
 public class DollarsBankApplication implements Colors {
 
 	public static void main(String[] args) {
+	
+		
 		ArrayList<Customer> customerList = new ArrayList<>();
 		Scanner input = new Scanner(System.in);
 		ConsolePrinterUtility cpu = new ConsolePrinterUtility();
@@ -28,6 +34,17 @@ public class DollarsBankApplication implements Colors {
 		boolean invalidChoice = true;
 		int menuChoice = 0;
 		
+		
+		//Prints menu
+//		"+--------------------------+"
+//		"|         Welcome          |"
+//		"+--------------------------+" 
+//		
+//		"Please make a selection"
+//		"1. New Customer"
+//		"2. Login"
+//		"3. Exit"
+//		"4. Log in to DB"
 		while(true) {
 		while (!isLoggedIn) {
 			cpu.initialMenu();
@@ -55,7 +72,13 @@ public class DollarsBankApplication implements Colors {
 				break;
 			case 3:
 				System.exit(0);
-				;
+				break;
+			case 4:
+				loggedInUser = controller.loginDB(input);
+				if(loggedInUser != null) {
+					isLoggedIn = true;
+				}
+				break;
 			default:
 				System.out.println("Please enter a valid menu option");
 				invalidChoice = true;
